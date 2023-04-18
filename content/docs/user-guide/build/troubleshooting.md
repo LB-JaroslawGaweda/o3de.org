@@ -50,13 +50,44 @@ These values are stored in the CMake cache. Clean the cache and reconfigure by d
 
 After cleaning the cache, the correct compiler should be detected during the CMake configuration stage.
 
-## Package Directory Detection Fails
+## CMake fails to find `Findo3de.cmake` 
 
-**Issue:** During configuration, the package directory isn't correctly detected and the CMake configure task reports
-an error similar to the following:
+**Issue:** The CMake tool reports it cannot find a package configuration file provided by "o3de". This produces a warning similar to:
 
 ```cmd
-cmake -B windows_vs2019 -S . -G "Visual Studio 16 2019" -DLY_3RDPARTY_PATH="C:\o3de\3rdParty\" -DLY_PROJECTS="%O3DE_PROJECTS%"
+CMake Error at CMakeLists.txt:10 (find_package): 
+
+By not providing "Findo3de.cmake" in CMAKE_MODULE_PATH this project has 
+asked CMake to find a package configuration file provided by "o3de", but 
+CMake did not find one. 
+
+Could not find a package configuration file provided by "o3de" with any of 
+the following names: 
+
+o3deConfig.cmake 
+
+o3de-config.cmake
+
+```
+
+**Remedy:** This issue is usually caused by a misconfigured `o3de_manifest.json` file that has an entry for a version of O3DE that no longer exists or has missing or corrupt files.  This can occur if you installed O3DE and then deleted the engine folder instead of uninstalling it using "Add or Remove Programs".  Do the following:
+1. Close Project Manager (`o3de.exe`) if it is open.
+1. Open `<user>/.o3de/o3de_manifest.json` in a text editor.
+1. Remove entries in the "engines" and "engines_path" lists for engines that have been removed or with paths that no longer exist.
+1. Make sure that the final lines in "engines" and "engines_path" do not end in a comma.
+1. Save and close the file.
+1. Restart Project Manager (`o3de.exe`).
+1. Re-add your project if you don't see it in the `Projects` page.
+
+When Project Manager opens it should automatically re-register the O3DE engine and update `o3de_manifest.json` with the correct information. 
+
+
+## Package Directory Detection Fails
+
+**Issue:** During configuration, the package directory isn't correctly detected and the CMake configure task reports an error similar to the following:
+
+```cmd
+cmake -B build/windows -S . -G "Visual Studio 16" -DLY_3RDPARTY_PATH="C:\o3de\3rdParty\"
 -- Selecting Windows SDK version 10.0.18362.0 to target Windows 10.0.17763.
 -- Using Windows target SDK 10.0.18362.0
 CMake Error at cmake/3rdParty.cmake:19 (file):

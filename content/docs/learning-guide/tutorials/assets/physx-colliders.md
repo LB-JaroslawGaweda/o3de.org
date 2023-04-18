@@ -2,13 +2,21 @@
 linkTitle: PhysX Assets
 title: Process PhysX Collider Assets
 description: Learn to customize PhysX collider asset processing in Open 3D Engine (O3DE) with Scene Settings.
-weight: 100
+weight: 400
 toc: true
 ---
 
-**Open 3D Engine (O3DE)** has a robust set of options for generating PhysX collider assets. In **Scene Settings**, you can customize PhysX collider asset generation. The generated PhysX colliders are stored in `.pxmesh` product assets. You can add the PhysX collider assets to a **PhysX Collider** component by selecting **PhysicsMesh** in the component's **Shape** property.
+**Open 3D Engine (O3DE)** has a robust set of options for generating PhysX collider assets. There are three PhysX collider types that you can use in different simulation scenarios. This topic explains the benefits and limitations of the different collider types, as well as the basics of generating PhysX asset colliders with  [**Scene Settings**](/docs/user-guide/assets/scene-settings/scene-settings).
 
-There are three PhysX asset collider types that you can use in different simulation scenarios. This topic explains the benefits and limitations of the different collider types, as well as the basics of generating PhysX asset colliders with Scene Settings.
+The generated PhysX colliders are stored in `.pxmesh` product assets. You can add the PhysX collider assets to a **PhysX Collider** component by selecting **PhysicsAsset** in the component's **Shape** property.
+
+{{< note >}}
+Understanding the [best practices](/docs/user-guide/assets/scene-settings/source-asset-best-practices#physx) for creating PhysX collider source assets can mitigate issues you might encounter when processing colliders for O3DE. For technical details about the data supported by colliders, refer to the [supported 3D scene data](/docs/user-guide/assets/scene-settings/scene-format-support#supported-3d-scene-data) table.
+{{< /note >}}
+
+| O3DE Experience | Time to Complete | Feature Focus | Last Updated |
+| - | - | - | - |
+| Beginner | 25 Minutes | Customized processing of PhysX collider assets from `.fbx` files with Scene Settings. | January 4, 2023 |
 
 ## Entity behavior
 
@@ -68,9 +76,7 @@ The following table summarizes the most import information about the available c
 
 ## Generate PhysX collider assets
 
-You can generate PhysX collider assets from any source asset that contains at least one mesh. You can customize the settings for PhysX collider generation in Scene Settings, in the **PhysX** tab.
-
-If you are unfamiliar with Scene Settings, refer to the [Mesh Asset tutorial](../mesh-assets) and check the [Scene Settings PhysX Tab](/docs/user-guide/assets/scene-settings/physx-tab) topic for in-depth information on the options for generating PhysX collider assets.
+You can generate PhysX collider assets from any source asset that contains at least one mesh. You can customize the settings for PhysX collider generation in Scene Settings, in the **PhysX** tab. If you are unfamiliar with Scene Settings, refer to the [mesh processing tutorial](../mesh-assets) and check the [Scene Settings PhysX tab](/docs/user-guide/assets/scene-settings/physx-tab) topic for in-depth information on the options for generating PhysX collider assets.
 
 You can follow this tutorial using any source asset that contains at least one mesh.
 
@@ -80,7 +86,7 @@ You can follow this tutorial using any source asset that contains at least one m
 
     If your asset has already been processed, you might see a preview image of the asset and a list of product assets below the `.fbx` source asset.
 
-1. To open Scene Settings, right-click the `.fbx` source asset, and then choose **Edit settings...** from the context menu.
+1. To open Scene Settings, **double-click** the `.fbx` source asset, and then choose **Edit settings...** from the context menu.
 
     ![ Open Scene Settings from Asset Browser. ](/images/learning-guide/tutorials/assets/meshes-edit-settings.png)
 
@@ -89,10 +95,10 @@ You can follow this tutorial using any source asset that contains at least one m
     ![ Scene Settings PhysX tab. ](/images/learning-guide/tutorials/assets/physx-scene-settings.png)
 
     In this image, there is a single **PhysX mesh group**. Each PhysX mesh group produces a `.pxmesh` product asset. You can create additional PhysX mesh groups for a source asset by choosing **Add another physxmesh**.
-    
+
     The **Name PhysX Mesh** property contains the name of the source asset. The `.pxmesh` product asset of this PhysX mesh group uses this string for its name.
 
-1. To select which meshes to include in the PhysX mesh group, next to the **Select meshes** property, choose the file select {{< icon browse-edit-select-files.svg >}} button. Meshes in the list are denoted by a purple mesh icon, as in the following image. You can select more than one mesh here if multiple meshes are available in the asset. If you select more than one mesh, you might also want to enable **Merge Meshes** and **Weld Vertices** to ensure that the input mesh is optimized.
+1. To select which meshes to include in the PhysX mesh group, next to the **Select meshes** property, choose the file select {{< icon browse-edit-select-files.svg >}} button. Meshes in the list are denoted by a purple mesh icon, as in the following image. You can select more than one mesh here if multiple meshes are available in the asset. If you select more than one mesh, you might additionally enable the **Merge Meshes** and **Weld Vertices** properties to ensure that the input mesh is optimized.
 
     ![ Selecting a PhysX mesh. ](/images/learning-guide/tutorials/assets/select-physx-mesh.png)
 
@@ -106,11 +112,11 @@ To automatically assign meshes in the source asset to a PhysX mesh group, add th
 
 1. At the bottom right of Scene Settings, choose **Update**. This creates or updates the `.assetinfo` sidecar file and triggers Asset Processor to reprocess the asset.
 
-1. Left-click the source asset in Asset Browser and drag it into the viewport.
+1. Drag the `.azmodel` product asset from Asset Browser into the viewport.
 
-    {{< image-width "/images/learning-guide/tutorials/assets/physx-entity.png" "800" "Drag the mesh asset into the viewport.">}}
+    {{< image-width "/images/learning-guide/tutorials/assets/physx-entity.png" "900" "Drag the mesh asset into the viewport.">}}
 
-    When you drag the asset into the viewport, O3DE automatically creates an entity with a **Mesh** component that references the mesh product asset. If the source asset contains materials that have been processed, O3DE applies the materials to the mesh by default. Note that in Asset Browser, the `.pxmesh` product asset has been generated and appears beneath the source asset.
+    When you drag the asset into the viewport, O3DE automatically creates an entity with a **Mesh** component that references the mesh product asset. If the source asset contains materials that have been processed, the materials are automatically applied to the mesh. Note that in Asset Browser, the `.pxmesh` product asset has been generated and appears beneath the source asset.
 
 1. Add a PhysX Collider component to the entity. With the entity selected in the viewport, in **Entity Inspector**, choose **Add Component**, and then select **PhysX Collider** from the component list. The component automatically detects the `.pxmesh` asset. The component's **Shape** property is set to `PhysicsAsset`, and the **PhysX Mesh** property automatically references the `.pxmesh` product asset.
 
@@ -148,15 +154,15 @@ Enabling Decompose Meshes reveals many options that you can use to fine-tune mes
 
 ### Primitive decomposition
 
-When you enable Decompose meshes for primitive colliders, the input mesh is decomposed into convex parts. The best fitting primitive shapes are automatically selected and transformed to encompass each part and the primitives are processed as a collider `.pxmesh` product asset. In the following image, the input mesh (left) is decomposed into six parts, and a primitive collider is automatically fitted to each part (right). Most parts are fitted with box primitive colliders, but one part, near the bottom of the asset, has a capsule primitive collider.
+When you enable Decompose meshes for primitive colliders, the input mesh is decomposed into convex parts. The best fitting primitive shapes are automatically selected and transformed to encompass each part and the primitives are processed as a collider `.pxmesh` product asset. In the following image, the input mesh (left) is decomposed into four parts, and a primitive collider is automatically fitted to each part (right). The parts are fitted with box primitive colliders.
 
 {{< image-width "/images/learning-guide/tutorials/assets/primitive-decompose.png" "700" "An example of mesh decomposition with primitive collider assets." >}}
 
 ### Convex decomposition
 
-When you enable Decompose meshes for convex colliders, the input mesh is decomposed into convex parts. A convex hull is generated for each part and the convex hulls are processed as a collider `.pxmesh` product asset. In the following image, the input mesh (left) is decomposed in to 6 parts and convex hulls are generated for each part (right). The convex colliders provide a fairly accurate representation of the render mesh which may be sufficient in many scenarios.
+When you enable Decompose meshes for convex colliders, the input mesh is decomposed into convex parts. A convex hull is generated for each part and the convex hulls are processed as a collider `.pxmesh` product asset. In the following image, the input mesh (left) is decomposed in to four parts and convex hulls are generated for each part (right). The convex colliders provide a fairly accurate representation of the render mesh which may be sufficient in many scenarios.
 
 
 {{< image-width "/images/learning-guide/tutorials/assets/convex-decompose.png" "700" "An example of mesh decomposition with convex collider assets." >}}
 
-In both of the previous images, the generated collider asset provides a more accurate representation of the render mesh than a single primitive or convex collider can. For example, notice that in both results, the collider surface doesn't block the hole in the middle of the logo, unlike in the earlier image of the convex collider asset type.
+In general, collider assets generated with decomposed meshes provide a more accurate representation of the render mesh than a single primitive or convex collider can. For example, notice that in both of the preceding results, the collider surface doesn't block the hole in the middle of the logo, unlike in the first example image of the convex collider asset type.

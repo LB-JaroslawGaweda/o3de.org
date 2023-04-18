@@ -23,7 +23,7 @@ If you can't find a component in the **Add Component** list, you may need to ena
 {{< /note >}}
 
 ## Components
-The components below are grouped by type as they appear in the O3DE Editor.
+The following components are grouped by type as they appear in the O3DE Editor.
 
 <!--
 ### AI
@@ -45,11 +45,14 @@ The components below are grouped by type as they appear in the O3DE Editor.
 | [Simple Motion](/docs/user-guide/components/reference/animation/simple-motion/) | Assigns a single motion to the associated Actor. This is a simpler alterative to the Anim Graph component.  |
 
 
-### Atom
+### Atom Renderer
 
 | Component | Description | 
 | - | - |
 | [Bloom](/docs/user-guide/components/reference/atom/bloom/) | Simulates real-world light bleeding, or glow. |
+| [Chromatic Aberration](/docs/user-guide/components/reference/atom/chromatic-aberration) | Simulates a lens effect that focuses wavelengths of light to different points. |
+| [CubeMap Capture](/docs/user-guide/components/reference/atom/cubemap-capture/) | Captures a Specular IBL or Diffuse IBL cubemap at the entity position. |
+| [Debug Rendering](/docs/user-guide/components/reference/atom/debug-rendering/) | Level component used to visually inspect and debug the scene. |
 | [Decal (Atom)](/docs/user-guide/components/reference/atom/decal/) | Projects a texture material in a single direction onto mesh surfaces. |
 | [Deferred Fog](/docs/user-guide/components/reference/atom/deferred-fog/) | Creates a screen space fog effect that can ben used as scene fog or layered / ground fog with an optional cloud noise turbulence. |
 | [Depth of Field](/docs/user-guide/components/reference/atom/depth-of-field/) | Simulates the lens effects of real world cameras that focus on a specific area. |
@@ -71,6 +74,7 @@ The components below are grouped by type as they appear in the O3DE Editor.
 | [Post-processing Modifiers](/docs/user-guide/components/reference/atom/post-processing-modifiers/) | A collection of components that define layers, volumes, areas, and weights for post-processing effects (PostFX). |
 | [Reflection Probe](/docs/user-guide/components/reference/atom/reflection-probe/) | Creates specular reflections in the environment around a probe (capture point). |
 | [SSAO](/docs/user-guide/components/reference/atom/ssao/) | Approximates indirect lighting in a scene by using the screen space ambient occlusion technique. |
+| [Stars](/docs/user-guide/components/reference/atom/stars/) | Provides physically-based animated resolution-independent distant stars. |
 
 ### Audio
 | Component | Description | 
@@ -142,12 +146,12 @@ The components below are grouped by type as they appear in the O3DE Editor.
 | [Slope Gradient](./gradients/slope-gradient) | Generates a gradient based on the surface angle. |
 | [Surface Mask Gradient](./gradients/surface-mask-gradient) | Generates a gradient based on the underlying surface types. |
 
-<!-- 
-### Networking
+### Multiplayer
 
 | Component | Description | 
 | - | - |
--->
+| [Simple Network Player Spawner](./multiplayer/simple-player-spawner) | Implements a basic setup for handling player join and player leave events in a network multiplayer session. |
+
 
 ### Non-uniform Scale
 
@@ -183,6 +187,7 @@ The components below are grouped by type as they appear in the O3DE Editor.
 
 | Component | Description | 
 | - | - |
+| [Axis Aligned Box Shape](/docs/user-guide/components/reference/shape/axis-aligned-box-shape/) | Creates box geometry that is always axis-aligned. |
 | [Box Shape](/docs/user-guide/components/reference/shape/box-shape/) | Generates box geometry for volumes and triggers. |
 | [Capsule Shape](/docs/user-guide/components/reference/shape/capsule-shape/) | Generates capsule geometry for volumes and triggers. |
 | [Compound Shape](/docs/user-guide/components/reference/shape/compound-shape/) | Builds complex geometry from simple shapes for volumes and triggers. |
@@ -212,10 +217,10 @@ The components below are grouped by type as they appear in the O3DE Editor.
 | - | - |
 | [Terrain Physics Heightfield Collider](./terrain/terrain-physics-collider) | Provides terrain data to a physics collider in the form of a heightfield and surface to material mapping. |
 | [Terrain Layer Spawner](./terrain/layer_spawner) | Spawns a terrain region contained within configurable bounds, and allows prioritization of overlapping terrain layers. |
+| [Terrain Macro Material](./terrain/terrain-macro-material) | Provides low-fidelity color data for a region of terrain. |
 | [Terrain Height Gradient List](./terrain/height_gradient_list) | Provides terrain height data from a list of gradients. |
 | [Terrain Surface Materials List](./terrain/surface-material-list) | Defines mappings between a surface type and a render material. |
 | [Terrain Surface Gradient List](./terrain/surface-gradient-list) | Defines mappings between a gradient and a surface type on a terrain layer. |
-| [Terrain Macro Material](./terrain/terrain-macro-material) | Provides a macro level method of defining the appearance of a region of terrain. |
 | [Terrain World](./terrain/world) | Allows the bounds of the Terrain World and the height query resolution to be set. |
 | [Terrain World Debugger](./terrain/world-debugger) | Provides a means to display a wireframe or bounds representation of the Terrain World. |
 | [Terrain World Renderer](./terrain/world-renderer) | Renders the terrain within the Terrain World bounds. |
@@ -268,3 +273,12 @@ The components below are grouped by type as they appear in the O3DE Editor.
 | [Vegetation Rotation Modifier](vegetation-modifiers/vegetation-rotation-modifier) | Offsets the rotation of the vegetation. |
 | [Vegetation Scale Modifier](vegetation-modifiers/vegetation-scale-modifier) | Offsets the scale of the vegetation. |
 | [Vegetation Slope Alignment Modifier](vegetation-modifiers/vegetation-slope-alignment-modifier) | Offsets the orientation of the vegetation relative to a surface angle. |
+
+## Supplemental Information
+
+The following pages provide additional information about data and systems used by the components.
+
+| Data/System | Description |
+| - | - |
+| [Paint Brush](paintbrush/paintbrush) | Painting data manipulator used by some components. |
+| [Terrain Detail Material](./terrain/terrain-detail-material) | Provides high-fidelity material data for a region of terrain. |

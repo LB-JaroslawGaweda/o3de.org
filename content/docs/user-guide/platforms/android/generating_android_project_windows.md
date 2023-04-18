@@ -17,12 +17,12 @@ The following instructions assume that you have:
 1.  Steps are performed in a Windows host machine.
 2.  Android Studio and Android SDK are installed
 3.  JDK development kit is installed and on the system path
-4.  Gradle is installed and on the system path
+4.  Gradle is installed and on the system path (maximum version supported: 7.0.2)
 5.  CMake {{< versions/cmake >}} or newer is installed and on the system path
 6.  Ninja build system is installed and on the system path
 7.  Git is installed
-8.  [O3DE](https://github.com/o3de/o3de.git) has been cloned locally on the system (to D:\\github\\o3de)
-9.  [Atom Sample Viewer](https://github.com/o3de/o3de-atom-sampleviewer.git) has been cloned locally on the system (to D:\\github\\o3de-atom-sampleviewer)
+8.  [O3DE](https://github.com/o3de/o3de.git) has been cloned locally on the system (to `D:\github\o3de`)
+9.  [Atom Sample Viewer](https://github.com/o3de/o3de-atom-sampleviewer.git) has been cloned locally on the system (to `D:\github\o3de-atom-sampleviewer`)
 
 {{< note >}}
 This example workflow represents the 'Source Engine' workflow when setting up [O3DE from GitHub](/docs/welcome-guide/setup/setup-from-github)
@@ -132,7 +132,7 @@ The following instructions assume that you've completed the optional steps to se
 3. Use Python to run `generate_android_project.py` and generate the Android project for Atom Sample Viewer. The following command by itself assumes you skipped step 2 and that you plan to create KeyStore settings through Android Studio after generating the project. Otherwise, if you did generate a KeyStore in step 2, then include the `--signconfig-*` options listed below and specify their values.
    
     ```
-    %O3DE_ENGINE_PATH%\python\python.cmd %O3DE_ENGINE_PATH%\cmake\Tools\Platform\Android\generate_android_project.py --engine-root %O3DE_ENGINE_PATH% --project-path %O3DE_PROJECT_PATH% --build-dir %O3DE_BUILD_ROOT%\android --third-party-path %USERPROFILE%\.o3de\3rdParty --android-sdk-path %O3DE_ANDROID_SDK_PATH% --android-ndk-version %O3DE_ANDROID_NDK_VERSION% --android-sdk-platform %O3DE_ANDROID_SDK_API_LEVEL% --include-apk-assets --asset-mode %O3DE_ANDROID_ASSET_MODE%
+    %O3DE_ENGINE_PATH%\python\python.cmd %O3DE_ENGINE_PATH%\cmake\Tools\Platform\Android\generate_android_project.py --engine-root %O3DE_ENGINE_PATH% --project-path %O3DE_PROJECT_PATH% --build-dir %O3DE_BUILD_ROOT%\android --third-party-path %USERPROFILE%\.o3de\3rdParty --android-sdk-path %O3DE_ANDROID_SDK_PATH% --android-ndk-version %O3DE_ANDROID_NDK_VERSION% --android-sdk-platform %O3DE_ANDROID_SDK_API_LEVEL% --enable-unity-build --include-apk-assets --asset-mode %O3DE_ANDROID_ASSET_MODE%
     ```
 
 4. Build the Android project.

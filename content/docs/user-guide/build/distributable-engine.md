@@ -3,20 +3,19 @@ title: Create Distributable Open 3D Engine Builds
 linktitle: Engine and Project Distribution
 description: Learn the process for building a full bundle of libraries and executables that you can distribute to internal teams to use your customized version of Open 3D Engine (O3DE).
 weight: 200
-toc: true
 ---
 
-Often, project developers are working on teams where engineers and others will be modifying the core **Open 3D Engine (O3DE)** code for internal needs. In these cases you need a _distributable build_ of the customized O3DE and project, so that your team can collaborate all using the same technical stack that's provided in-house. 
+Often, project developers are working on teams where engineers and others will be modifying the core **Open 3D Engine (O3DE)** code for internal needs. In these cases you need a _distributable build_ of the customized O3DE and project (also known as a "pre-built SDK engine"), so that your team can all collaborate using the same technical stack that's provided in-house.
 
 This topic guides you through the creation of an engine build to distribute internally as part of project development, which can be used by a project-dedicated team while keeping the engine-dedicated team's work separated and independent.
 
-The steps outlined in this section are appropriate for build engineers to set up continuous integration (CI) systems which create and distribute new builds on a regular basis - or for developers who need to make regular one-off builds for smaller teams.
+The steps outlined in this section are appropriate for build engineers to set up continuous integration (CI) systems which create and distribute new builds on a regular basis, or for developers who need to make regular one-off builds for smaller teams.
 
 ## Prerequisites
 
 The prerequisites required for creating a distributable build are:
 
-* A local clone of O3DE source code.
+* O3DE source code.
 * A location to host the distributable build, such as source control.
 
 ## Example values
@@ -58,22 +57,32 @@ The first step in creating a distributable build is generating local binaries fr
 
 Perform the following steps from the O3DE source directory (`C:\o3de-source` in this example):
 
-1.  Generate the toolchain project files using a unique `LY_VERSION_ENGINE_NAME` CMake cache setting. This value is the name of the engine used by the O3DE project manager and registration system.
-    
+1.  Generate the toolchain project files using a unique `LY_VERSION_ENGINE_NAME` CMake cache setting. This value is the name of the engine used by **Project Manager** and the O3DE registration system. Giving the install layout a different engine name than the source engine enables the engines to be registered side-by-side.
+
     ```cmd
-    cmake -B build/windows_vs2019 -G "Visual Studio 16" --config profile -DLY_VERSION_ENGINE_NAME="MyO3DE"
+    cmake -B build/windows -G "Visual Studio 16" --config profile -DLY_VERSION_ENGINE_NAME="MyO3DE"
     ```
+
+    Other cache variables to consider setting on this line (using the `-D` option) include:
+
+    * `LY_3RDPARTY_PATH` : The path to a custom downloadable package directory, also known as the "third-party path". Do not use trailing slashes when specifying the path to the packages directory.
+    * `CMAKE_INSTALL_PREFIX`: The parent directory of the `bin` directory containing the distributable binaries. You will find the Project Manager, Editor, and other binaries in the subdirectory `bin\Windows\profile\Default`. If you don't specify this option, the engine SDK binaries will be built to `<ENGINE_SOURCE>\install\bin\Windows\profile\Default`.
+
+    {{< note >}}
+Use `Visual Studio 16` as the generator for Visual Studio 2019, and `Visual Studio 17` for Visual Studio 2022. For a complete list of common generators for each supported platform, refer to [Configuring projects](../configure-and-build/#configuring-projects).
+    {{< /note >}}
 
     The **profile** configuration is recommended for distributed builds, as it provides additional logging and engine introspection capabilities useful during project development at minimal performance cost. **debug** builds are primarily useful during engine development.
+
 1.  Build the `INSTALL` target.
-    
+
     ```cmd
-    cmake --build build/windows_vs2019 --target INSTALL --config profile
+    cmake --build build/windows --target INSTALL --config profile
     ```
-    
+
     The binaries will be placed into a distributable install directory specified by the `CMAKE_INSTALL_PREFIX` CMake cache variable, or in an `install` subdirectory of the source code by default.
 
-Run the following steps from the distributable install directory:
+Run the following step from the distributable install directory:
 
 1. Install the version of Python and modules required by the engine.
    
@@ -116,7 +125,7 @@ If you have an existing project to update rather than creating a new one, the us
 Use the `o3de` script to re-register your project with the install build. This will be used to create the distributable build for your project.
    
 ```cmd
-scripts\o3de.bat register --pp W:\MyProject
+scripts\o3de.bat register -pp W:\MyProject
 ```
 
 The `engine` field of the `project.json` file will now be the name of the engine that was set as `LY_ENGINE_VERSION_NAME` during configuration.
@@ -128,8 +137,8 @@ Whether you have created a new project or updated an existing one, in order to c
 From your project directory, configure and build the project.
     
 ```cmd
-cmake -B build/windows_vs2019 -S .
-cmake --build build/windows_vs2019 --config profile
+cmake -B build/windows -S .
+cmake --build build/windows --config profile
 ```
 
 ## (Optional) Create and load an initial level
@@ -161,7 +170,7 @@ To help creative teams who will be using the tools (but not building them), we r
 To verify that the level loads when the game is launched, run the project's game launcher:
 
 ```cmd
-W:\MyProject\build\windows_vs2019\bin\profile\MyProject.GameLauncher.exe
+W:\MyProject\build\windows\bin\profile\MyProject.GameLauncher.exe
 ```
 
 ## Create a distributable build
@@ -173,7 +182,7 @@ From the project directory, run the following steps:
 1. Create an install build of the project.
     
     ```cmd
-    cmake --build build\windows_vs2019 --config profile --target INSTALL
+    cmake --build build\windows --config profile --target INSTALL
     ```
 
     This creates the binaries in an `install` subdirectory of your project. For our example it would be `W:\MyProject\install`.
@@ -224,3 +233,21 @@ Engine developers will work on O3DE source code and create new distributable bui
 Project developers will work on project-specific source code or use O3DE creative tools to add project content. To enable their workflows, project developers are required to _only_ pull a project from its hosted location.
 
 Whenever working on their project, project developers should launch the tools that were checked in as the distibutable engine build. These tools are located in the project's `install\bin\Windows\profile\Default` subdirectory.
+
+### License file generation
+
+License attribution files (often called the NOTICES file) can be generated during the project development process to properly attribute any code or packages that were imported. To scan project directories for licenses, project developers can run a script located in the engine's `scripts\license_scanner` subdirectory.
+
+In this example, with the engine, project, and `C:\o3de-source\3rdParty` as your downloadable packages folder, run the following script in the engine source folder:
+   ```cmd
+   python\python.cmd scripts\license_scanner\license_scanner.py ^
+     --config-file scripts\license_scanner\scanner_config.json ^
+     --license-file-path build\windows_vs2019\NOTICES.txt ^
+     --package-file-path build\windows_vs2019\spdx-packages.json ^
+     --scan-path C:\o3de-source W:\MyProject C:\o3de-source\3rdParty
+   ```
+This will scan the engine, project, and `C:\o3de-source\3rdParty` folders for license files using a default configuration in the `scanner_config.json` file, then generate a `NOTICES.txt` in the build output folder. In addition, if a `PackageInfo.json` file is detected in `C:\o3de-source\3rdParty`, the script will scan the file and add a package license manifest for each package to a summary file called `spdx-packages.json`.
+
+{{< note >}}
+The scanner script will perform filename scans based on the configuration of the `scanner_config.json` file, but it is not guaranteed to find all license files, nor catch recursive dependencies. To ensure there is sufficient attribution in your project, we recommend tools such as [Scancode Toolkit](https://github.com/nexB/scancode-toolkit) and [Fossology](https://www.fossology.org) to further validate your dependencies.
+{{< /note >}}

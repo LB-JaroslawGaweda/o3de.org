@@ -19,7 +19,7 @@ The NVIDIA Cloth Gem provides the following:
 
 * Cloth colliders that can be added to actors in **Animation Editor**.
 
-* Mesh and Actor example assets and slices located in: `\Gems\NvCloth\Assets\`.
+* Mesh and Actor example assets and prefabs located in: `\Gems\NvCloth\Assets\`.
 
 * A public C++ API that allows other systems and Gems to access cloth simulation functionality.
 
@@ -35,12 +35,16 @@ To enable the NVIDIA Cloth Gem, do the following:
 
 1. Configure the build:
 
+   ```cmd
+   cmake -B <CMake build dir> -S . -G "Visual Studio 16" 
    ```
-   cmake -B <CMake build dir> -S . -G "Visual Studio 16 2019" 
-   ```
+
+   {{< note >}}
+Use `Visual Studio 16` as the generator for Visual Studio 2019, and `Visual Studio 17` for Visual Studio 2022. For a complete list of common generators for each supported platform, refer to [Configuring projects](/docs/user-guide/build/configure-and-build/#configuring-projects).
+   {{< /note >}}
 
 1. Build your project:
 
-   ```
+   ```cmd
    cmake --build <CMake build dir> --target <Project name> --config profile -- -m
    ```

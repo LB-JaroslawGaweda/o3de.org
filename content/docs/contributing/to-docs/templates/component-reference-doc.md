@@ -24,7 +24,7 @@ The workflow:
 
 7. [Submit your document to O3DE Documentation.](#submit-your-component-reference-document)
 
-All documentation must adhere to the standards outlined in the O3DE [Style Guide](/docs/contributing/to-docs/style-guide/)and [Terminology](/docs/contributing/to-docs/terminology/). If you need any help, reach out to the Documentation and Community Special Interest Group (#sig-docs-community) on [Discord](https://discord.com/invite/o3de). 
+All documentation must adhere to the standards outlined in the O3DE [Style Guide](/docs/contributing/to-docs/style-guide/) and [Terminology](/docs/contributing/to-docs/terminology/). If you need any help, reach out to the Documentation and Community Special Interest Group (#sig-docs-community) on [Discord](https://discord.com/invite/o3de). 
 
 
 ## Does my document belong in the O3DE Component Reference?
@@ -35,7 +35,7 @@ Supplemental information, such as using the component across different workflows
 
 ## Setting up repository and downloading component template
 
-To contribute to O3DE documentation, you must complete the steps in [Set Up a Local O3DE Docs Repo](/docs/contributing/to-docs/o3de-docs-repo-setup/). You can do this before or after writing your component reference document. However, you must set this up to place your document and images in the right folder.
+To contribute to O3DE documentation, you must complete the steps in [Setting up a local o3de.org repo](../get-started#setting-up-a-local-o3deorg-repo). You can do this before or after writing your component reference document. However, you must set this up to place your document and images in the right folder.
 
 In a new tab, navigate to the file [component reference template](https://raw.githubusercontent.com/o3de/sig-docs-community/main/doc-templates/component-reference.md) in the o3de/sig-docs-community repository and save it to your local machine. Open the template in a text editor and refer to this page as you fill it out.
 
@@ -89,7 +89,7 @@ See `component-reference.md`:
 
 ### Provider
 
-Write the name of the Gem that provides this component and link to the corresponding [Gem reference document](/docs/user-guide/gems/reference/overview/).
+Write the name of the Gem that provides this component and link to the corresponding [Gem reference document](/docs/user-guide/gems/reference/).
 
 **Specifications**:
 
@@ -257,7 +257,7 @@ For a component card with a complex set of properties, you may need multiple pro
 Another option is to separate the property tables into [tabs](/docs/contributing/to-docs/style-guide/format/#tabs) on your document. When content is in tabs, only the active tab displays content, while the rest is hidden. Because of this behavior, tabs are recommended if the sets of properties define configurations for different workflows that the user may or may not choose. 
 
 **Examples**:
-* [Light component](/docs/user-guide/components/reference/atom/light/): Contains several configurations that don't have a 1-1 relationship with the **Light type** property. Some propery groups are available for more than one light type, so they are documented in different property tables. Each property table specifies which light types support those properties.
+* [Light component](/docs/user-guide/components/reference/atom/light/): Contains several configurations that don't have a 1-1 relationship with the **Light type** property. Some property groups are available for more than one light type, so they are documented in different property tables. Each property table specifies which light types support those properties.
 
 * [PhysX Collider component](/docs/user-guide/components/reference/physx/collider/): Contains several configurations, which depend on the **Shape** property. Each configuration affect what properties are available, so they are documented in different property tables separated into tabs. 
 
@@ -467,11 +467,4 @@ Remember to update the [Component Reference](/docs/user-guide/components/referen
 
 ## Submit your component reference document
 
-Congratulations on writing your component reference document! It's almost ready to publish. The [Contributing to O3DE Documentation](/docs/contributing/to-docs/) section can help you through the final steps to deliver your document: 
-
-* [Preview your document](/docs/contributing/to-docs/hugo/) using Hugo.
-
-* [Commit and push your document](/docs/contributing/to-docs/git-workflow/) to your `o3de.org` fork.
-
-* [Create a PR](/docs/contributing/to-docs/submit-a-pr/) against the `o3de.org` repository. 
-
+Congratulations on writing your component reference document! It's almost ready to publish. The [Get Started Contributing to Docs](/docs/contributing/to-docs/get-started) section can help you through the final steps to deliver your document.
